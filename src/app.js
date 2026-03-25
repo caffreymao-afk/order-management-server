@@ -8,20 +8,7 @@ const exportsRouter = require('./routes/exports')
 const app  = express()
 const PORT = process.env.PORT || 3001
 
-// CORS：允许环境变量里配置的来源
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:5174,http://localhost:5175,https://order-management-seven-omega.vercel.app,https://12kaiai.netlify.app,https://caffreymao.netlify.app')
-  .split(',').map(s => s.trim())
-
-app.use(cors({
-  origin: (origin, cb) => {
-    // ALLOWED_ORIGINS=* 时允许所有来源
-    if (allowedOrigins.includes('*') || !origin || allowedOrigins.includes(origin)) {
-      return cb(null, true)
-    }
-    cb(null, false)
-  },
-  credentials: true,
-}))
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(logger)
