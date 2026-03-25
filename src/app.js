@@ -14,9 +14,10 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,ht
 
 app.use(cors({
   origin: (origin, cb) => {
-    // 允许无 origin（如 curl、Postman）或白名单内来源
-    if (!origin || allowedOrigins.includes(origin)) return cb(null, true)
-    // 返回 false 而不是 Error，避免触发 500
+    // ALLOWED_ORIGINS=* 时允许所有来源
+    if (allowedOrigins.includes('*') || !origin || allowedOrigins.includes(origin)) {
+      return cb(null, true)
+    }
     cb(null, false)
   },
   credentials: true,
