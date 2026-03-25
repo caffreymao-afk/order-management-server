@@ -33,7 +33,10 @@ if (DATABASE_URL) {
   }
 } else {
   // ─── SQLite（本地开发） ──────────────────────────────────────────────────────
-  const BetterSqlite = require('better-sqlite3')
+  let BetterSqlite
+  try { BetterSqlite = require('better-sqlite3') } catch {
+    throw new Error('本地开发需要 better-sqlite3，请运行: npm install better-sqlite3\n线上请设置 DATABASE_URL 环境变量使用 PostgreSQL')
+  }
   const path = require('path')
   const fs = require('fs')
 
