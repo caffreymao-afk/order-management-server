@@ -6,9 +6,11 @@ const DATABASE_URL = process.env.DATABASE_URL
 if (DATABASE_URL) {
   const { Pool } = require('pg')
 
+  // Railway 内网地址不需要 SSL，外网地址（Supabase等）需要 SSL
+  const isInternalNetwork = DATABASE_URL.includes('.railway.internal') || DATABASE_URL.includes('localhost')
   const pool = new Pool({
     connectionString: DATABASE_URL,
-    ssl: { rejectUnauthorized: false }, // Supabase / Railway 需要 SSL
+    ssl: isInternalNetwork ? false : { rejectUnauthorized: false },
   })
 
   // 统一成同步风格的 query 接口（通过 async wrapper）
