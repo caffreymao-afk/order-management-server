@@ -46,6 +46,7 @@ async function startServer() {
     await require('./db/init')()
   } catch (err) {
     console.error('数据库初始化失败:', err.message)
+    console.error('完整错误:', err.stack)
     process.exit(1)
   }
 

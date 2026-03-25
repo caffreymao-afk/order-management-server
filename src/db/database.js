@@ -1,6 +1,7 @@
 require('dotenv').config()
 
-const DATABASE_URL = process.env.DATABASE_URL
+const DATABASE_URL = (process.env.DATABASE_URL || '').trim() || undefined
+console.log('[DB] DATABASE_URL prefix:', DATABASE_URL ? DATABASE_URL.substring(0, 30) + '...' : 'NOT SET')
 
 // ─── PostgreSQL（线上） ────────────────────────────────────────────────────────
 if (DATABASE_URL) {
