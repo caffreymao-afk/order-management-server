@@ -40,15 +40,26 @@ app.use((err, req, res, _next) => {
   res.status(500).json({ code: 500, msg: '服务器内部错误', data: null })
 })
 
-app.listen(PORT, () => {
-  const dbType = process.env.DATABASE_URL ? 'PostgreSQL ☁️' : 'SQLite 💾'
-  console.log(`
+async function startServer() {
+  // 启动时自动初始化数据库（建表 + 种子数据）
+  try {
+    await require('./db/init')()
+  } catch (err) {
+    console.error('数据库初始化失败:', err.message)
+    process.exit(1)
+  }
+
+  app.listen(PORT, () => {
+    const dbType = process.env.DATABASE_URL ? 'PostgreSQL ☁️' : 'SQLite 💾'
+    console.log(`
   ╔══════════════════════════════════════╗
   ║   订单管理系统 后端已启动             ║
   ║   http://localhost:${PORT}              ║
   ║   数据库: ${dbType.padEnd(18)}  ║
   ╚══════════════════════════════════════╝
-  `)
-})
+    `)
+  })
+}
 
+startServer()
 module.exports = app
