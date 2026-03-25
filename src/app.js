@@ -16,7 +16,8 @@ app.use(cors({
   origin: (origin, cb) => {
     // 允许无 origin（如 curl、Postman）或白名单内来源
     if (!origin || allowedOrigins.includes(origin)) return cb(null, true)
-    cb(new Error(`CORS blocked: ${origin}`))
+    // 返回 false 而不是 Error，避免触发 500
+    cb(null, false)
   },
   credentials: true,
 }))
