@@ -9,7 +9,7 @@ const app  = express()
 const PORT = process.env.PORT || 3001
 
 // CORS：允许环境变量里配置的来源
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:5174,http://localhost:5175,https://order-management-seven-omega.vercel.app')
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:5174,http://localhost:5175,https://order-management-seven-omega.vercel.app,https://12kaiai.netlify.app')
   .split(',').map(s => s.trim())
 
 app.use(cors({
